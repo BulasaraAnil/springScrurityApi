@@ -49,6 +49,7 @@ public class LoginController {
 	    }
 
 	    String jwt = jwtUtil.generateToken(userDetails.getUsername());
+	    System.out.println("jwt----- "+jwt);
 
 	    return ResponseEntity.ok(jwt);  // Correctly return the JWT token in the response body
 	}
