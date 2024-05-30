@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,10 @@ import com.online.springsecurity.dto.LoginRequest;
 import com.online.springsecurity.dto.LoginResponse;
 import com.online.springsecurity.utils.JwtUtil;
 
+import io.jsonwebtoken.io.IOException;
+import jakarta.servlet.http.HttpServletResponse;
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -50,8 +57,11 @@ public class LoginController {
 
 	    String jwt = jwtUtil.generateToken(userDetails.getUsername());
 	    System.out.println("jwt----- "+jwt);
-
 	    return ResponseEntity.ok(jwt);  // Correctly return the JWT token in the response body
 	}
+	
+
+	
+
 
 }

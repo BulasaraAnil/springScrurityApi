@@ -30,21 +30,37 @@ public class WebSecurityConfiguration {
     }
 
 	
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+//
+//        return security.csrf().disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/signup", "/login").permitAll()
+//                .and()
+//                .authorizeHttpRequests().requestMatchers("/api/**")
+//                .authenticated()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+//                .build();
+//    }
+    
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
-
-        return security.csrf().disable()
-                .authorizeHttpRequests()
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+            .cors().and()  // Add this line to enable CORS
+            .authorizeHttpRequests()
                 .requestMatchers("/signup", "/login").permitAll()
-                .and()
-                .authorizeHttpRequests().requestMatchers("/api/**")
-                .authenticated()
-                .and()
-                .sessionManagement()
+                .anyRequest().authenticated()
+            .and()
+            .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+            .and()
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 	
     @Bean

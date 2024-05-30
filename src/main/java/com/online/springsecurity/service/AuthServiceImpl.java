@@ -28,11 +28,11 @@ public class AuthServiceImpl implements AuthService {
 
 
 	@Override
-	public boolean createCustomer(SignupRequest signupRequest) {
+	public Customer createCustomer(SignupRequest signupRequest) {
 		// check customer already create or not
 		
 		if(customerRepository.existsByEmail(signupRequest.getEmail())) {
-			return false;
+			return null;
 		}
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(signupRequest, customer);
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 		customerRepository.save(customer);
 		
 		
-		return true;
+		return customer;
 	}
 
 }
